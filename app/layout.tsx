@@ -11,8 +11,8 @@ const poppins = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'EventKu',
-  description: 'Katalog dan pemesanan tiket event sekolah',
+  title: { default: 'EventKu', template: '%s · EventKu' },
+  description: 'Aplikasi pemesanan tiket event',
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {

@@ -1,11 +1,26 @@
 import { Suspense } from 'react';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { events, rupiah } from '@/data/events';
 import FormPesan from '@/components/FormPesan';
 import TombolFavorit from '@/components/TombolFavorit';
 import EventTerkait from '@/components/EventTerkait';
+
+export async function generateMetadata({
+  params,
+}: PageProps<'/event/[id]'>): Promise<Metadata> {
+  const { id } = await params;
+  const event = events.find((item) => item.id === Number(id));
+
+  if (!event) return { title: 'Event tidak ditemukan' };
+
+  return {
+    title: event.judul,
+    description: `${event.kategori} di ${event.lokasi}, ${event.tanggal}. ${rupiah(event.harga)}.`,
+  };
+}
 
 export default async function DetailPage({
   params,
