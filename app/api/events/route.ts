@@ -1,5 +1,7 @@
-﻿import { events } from '@/data/events';
+﻿import { NextResponse } from 'next/server';
+import { ambilEvents } from '@/data/ambil';
 
 export async function GET() {
-  return Response.json(events);
+  const events = await ambilEvents();
+  return NextResponse.json(events);
 }

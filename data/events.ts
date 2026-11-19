@@ -7,7 +7,7 @@ export type Event = {
   kuota: number;
   terisi: number;
   kategori: string;
-  gambar?: string; // Ditambahkan di akhir type Event
+  gambar?: string | null; // Ditambahkan di akhir type Event
 };
 
 export const events: Event[] = [
