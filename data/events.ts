@@ -1,13 +1,13 @@
 export type Event = {
   id: number;
   judul: string;
+  kategori: string;
   tanggal: string;
   lokasi: string;
   harga: number;
   kuota: number;
   terisi: number;
-  kategori: string;
-  gambar?: string | null; // Ditambahkan di akhir type Event
+  gambar?: string | null;
 };
 
 export const events: Event[] = [

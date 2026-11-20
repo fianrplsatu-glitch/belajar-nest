@@ -1,6 +1,6 @@
 'use client';
 import { useActionState, useState } from 'react';
-import { pesanTiket, type HasilPesan } from '@/app/actions';
+import { pesanTiket, type HasilPesanan } from '@/app/actions';
 import { rupiah, type Event } from '@/data/events';
 
 export default function FormPesan({
@@ -10,7 +10,7 @@ export default function FormPesan({
   event: Event;
   namaAwal?: string;
 }) {
-  const awal: HasilPesan = {
+  const awal: HasilPesanan = {
     berhasil: false,
     pesan: '',
     galat: {},

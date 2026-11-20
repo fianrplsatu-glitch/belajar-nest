@@ -1,6 +1,5 @@
 'use client';
 
-import { HEADERS_METADATA } from '@nestjs/common/constants.js';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -10,6 +9,7 @@ const menu = [
   { href: '/pesanan', teks: 'Riwayat Pesanan' },
   { href: '/tentang', teks: 'Tentang' },
   { href: '/favorit', teks: 'Favorit' },
+  { href: '/admin', teks: 'Admin' },
 ];
 
 export default function Navbar() {

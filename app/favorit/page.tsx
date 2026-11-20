@@ -1,5 +1,6 @@
 import DaftarFavorit from '@/components/DaftarFavorit';
-export default function () {
+
+export default function HalamanFavorit() {
   return (
     <div>
       <h1 className="mb-4 text-2xl font-bold">Event Favorit</h1>

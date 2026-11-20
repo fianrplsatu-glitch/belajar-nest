@@ -11,21 +11,36 @@ export default function DaftarFavorit() {
   const [galat, setGalat] = useState('');
 
   useEffect(() => {
-    try {
-      const favorit = JSON.parse(localStorage.getItem('favorit') ?? '[]');
-      setIds(Array.isArray(favorit) ? favorit : []);
-    } catch {
-      setIds([]);
+    let dibatalkan = false;
+
+    async function muatFavorit() {
+      let idFavorit: number[] = [];
+      try {
+        const favorit = JSON.parse(localStorage.getItem('favorit') ?? '[]');
+        if (Array.isArray(favorit)) idFavorit = favorit;
+      } catch {
+        idFavorit = [];
+      }
+
+      try {
+        const respons = await fetch('/api/events');
+        if (!respons.ok) throw new Error('Gagal mengambil data');
+        const data: Event[] = await respons.json();
+        if (dibatalkan) return;
+        setIds(idFavorit);
+        setSemua(data);
+      } catch (e) {
+        if (!dibatalkan)
+          setGalat(e instanceof Error ? e.message : 'Gagal mengambil data');
+      } finally {
+        if (!dibatalkan) setMemuat(false);
+      }
     }
 
-    fetch('/api/events')
-      .then((r) => {
-        if (!r.ok) throw new Error('Gagal mengambil data');
-        return r.json();
-      })
-      .then((d: Event[]) => setSemua(d))
-      .catch((e: Error) => setGalat(e.message))
-      .finally(() => setMemuat(false));
+    void muatFavorit();
+    return () => {
+      dibatalkan = true;
+    };
   }, []);
 
   if (memuat) return <p>Memuat...</p>;

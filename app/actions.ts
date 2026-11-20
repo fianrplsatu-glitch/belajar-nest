@@ -73,16 +73,28 @@ export async function pesanTiket(
     };
   }
 
-  const { error: galatKuota } = await supabaseAdmin
+  const { data: terupdate, error: galatKuota } = await supabaseAdmin
     .from('events')
     .update({ terisi: event.terisi + jumlah })
-    .eq('id', eventId);
+    .eq('id', eventId)
+    .eq('terisi', event.terisi)
+    .select('id');
 
   if (galatKuota) {
     return {
       berhasil: false,
       pesan:
         'Pesanan tersimpan, tetapi kuota gagal diperbarui. Hubungi panitia.',
+      galat: {},
+      isian,
+    };
+  }
+
+  if (!terupdate || terupdate.length === 0) {
+    await supabaseAdmin.from('pesanan').delete().eq('nomor', baru.nomor);
+    return {
+      berhasil: false,
+      pesan: 'Tiket baru saja berubah, coba lagi.',
       galat: {},
       isian,
     };
@@ -124,15 +136,17 @@ export async function batalkanPesanan(formData: FormData) {
 
   if (!batal) return;
 
-  const event = await ambilEvent(batal.event_id);
-  if (event) {
-    await supabaseAdmin
-      .from('events')
-      .update({ terisi: Math.max(0, event.terisi - batal.jumlah) })
-      .eq('id', batal.event_id);
+  if (batal.event_id !== null) {
+    const event = await ambilEvent(batal.event_id);
+    if (event) {
+      await supabaseAdmin
+        .from('events')
+        .update({ terisi: Math.max(0, event.terisi - batal.jumlah) })
+        .eq('id', batal.event_id);
+    }
+    revalidatePath(`/event/${batal.event_id}`);
   }
 
   revalidatePath('/event');
-  revalidatePath(`/event/${batal.event_id}`);
   revalidatePath('/pesanan');
 }
