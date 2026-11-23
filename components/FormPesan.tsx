@@ -17,12 +17,17 @@ export default function FormPesan({
     galat: {},
     isian: { nama: namaAwal, email: '' },
   };
+
   const [hasil, kirim, sedangKirim] = useActionState(pesanTiket, awal);
   const [jumlah, setJumlah] = useState(1);
   const sisa = event.kuota - event.terisi;
 
   if (sisa <= 0) {
-    return <p className="mt-6 font-medium text-red-600">Tiket sudah habis.</p>;
+    return (
+      <p className="mt-6 font-medium text-red-600">
+        Tiket sudah habis.
+      </p>
+    );
   }
 
   function handleJumlahChange(e: ChangeEvent<HTMLInputElement>) {
@@ -39,6 +44,7 @@ export default function FormPesan({
   return (
     <form action={kirim} className="mt-6 space-y-3 border-t pt-4">
       <h2 className="text-lg font-semibold">Pesan tiket</h2>
+
       <input type="hidden" name="eventId" value={event.id} />
 
       <div>
@@ -77,7 +83,9 @@ export default function FormPesan({
           className="block w-32 rounded border px-3 py-2"
         />
         {hasil.galat.jumlah && (
-          <p className="text-sm text-red-600">{hasil.galat.jumlah}</p>
+          <p className="text-sm text-red-600">
+            {hasil.galat.jumlah}
+          </p>
         )}
       </div>
 
