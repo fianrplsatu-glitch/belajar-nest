@@ -26,19 +26,14 @@ export default function FormPesan({
   }
 
   function handleJumlahChange(e: ChangeEvent<HTMLInputElement>) {
-    const rawValue = e.target.value;
-    if (rawValue === '') {
+    const nilai = e.target.valueAsNumber;
+
+    if (!Number.isFinite(nilai)) {
       setJumlah(1);
       return;
     }
 
-    const nilai = Number(rawValue);
-    if (!Number.isInteger(nilai)) {
-      setJumlah(1);
-      return;
-    }
-
-    setJumlah(Math.min(Math.max(nilai, 1), sisa));
+    setJumlah(Math.min(sisa, Math.max(1, Math.floor(nilai))));
   }
 
   return (
@@ -75,7 +70,7 @@ export default function FormPesan({
           name="jumlah"
           type="number"
           min={1}
-          max={Math.min(5, sisa)}
+          max={sisa}
           step={1}
           value={jumlah}
           onChange={handleJumlahChange}
