@@ -10,9 +10,9 @@ if (!supabaseUrl || !supabaseSecretKey) {
   );
 }
 
-// Klien dengan kunci RAHASIA (secret key). Melewati semua aturan database,
-// jadi hanya boleh dipakai di server. "server-only" membuat build gagal
-// bila berkas ini tidak sengaja diimpor dari Client Component.
 export const supabaseAdmin = createClient(supabaseUrl, supabaseSecretKey, {
-  auth: { persistSession: false, autoRefreshToken: false },
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+  },
 });
